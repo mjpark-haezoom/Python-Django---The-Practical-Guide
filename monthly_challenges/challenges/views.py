@@ -22,6 +22,11 @@ def index(request): # 모든 가능한 월을 표시하는 index를 담은 view
     list_items = ""
     months = list(monthly_challenges.keys())
     
+    return render(request, "challenges/index.html", {
+            "months": months
+        })
+        
+    
     for month in months:
         capitalized_month = month.capitalize()
         month_path = reverse("month-challenge", args=[month])
