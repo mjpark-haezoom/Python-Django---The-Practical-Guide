@@ -18,6 +18,19 @@ monthly_challenges = {
 }
 # Create your views here.
 
+def index(request): # 모든 가능한 월을 표시하는 index를 담은 view
+    list_items = ""
+    months = list(monthly_challenges.keys())
+    
+    for month in months:
+        capitalized_month = month.capitalize()
+        month_path = reverse("month-challenge", args=[month])
+        list_items += f"<li><a href=\"{month_path}\">{capitalized_month}</a></li>"
+    
+    # "<li><a href="...">January</a></li><li><a href="...">Febrary</a></li>..." -> 이런 식으로 동작하는 코드
+    
+    response_data = f"<ul>{list_items}</ul>"
+    return HttpResponse(response_data)
 
 def monthly_challenge_by_number(request, month):
     months = list(monthly_challenges.keys())  # key를 사용해서 숫자를 받으면 월로 바꾸기
