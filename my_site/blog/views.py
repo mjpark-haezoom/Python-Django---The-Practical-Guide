@@ -79,14 +79,16 @@ def starting_point (request):
     # sorted_posts = sorted(all_posts, key=all_posts)
     # latest_posts = sorted_posts[-3:]
     
-    latest_posts = Post.objects.all().order_by("-date")[:3]
+    latest_posts = Post.objects.all().order_by("-date")[:3] 
+    # SQL 구문으로 바꿔서 모든 데이터를 가져오지 않고 일부 부분만 가져옴. 장고에서 -index는 지원하지 않음. 
     return render(request, "blog/index.html", {
         "posts": latest_posts
     })
 
 def posts(request):
+    all_posts = Post.objects.all().order_by("-date")
     return render(request, "blog/all-posts.html", {
-        "all_posts": Post.objects.all()
+        "all_posts": all_posts
     })
 
 def post_detail(request, slug):
@@ -97,7 +99,8 @@ def post_detail(request, slug):
     # })
     identified_post = get_object_or_404(Post, slug=slug)
     return render(request, "blog/post-detail.html", {
-        "post": identified_post
+        "post": identified_post,
+        "post_tags" : identified_post.tags.all()
     })
     
 
